@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Vacinas</title>
+</head>
+<body>
+    <h1>Lista de Vacinas</h1>
+    <% const faixasEtarias = ['Crianças', 'Adolescentes', 'Adultos', 'Idosos', 'Gestantes']; %>
+    <% faixasEtarias.forEach(faixa => { %>
+        <h2><%= faixa %></h2>
+        <ul>
+            <% vacinas.filter(vacina => vacina.publicoAlvo === faixa).forEach(vacina => { %>
+                <li><strong><%= vacina.nome %></strong>: <%= vacina.protecao %></li>
+            <% }); %>
+        </ul>
+    <% }); %>
+    <a href="/dashboard">Voltar ao Dashboard</a>
+</body>
+</html>

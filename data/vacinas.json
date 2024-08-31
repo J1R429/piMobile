@@ -1,0 +1,240 @@
+[
+    {
+      "nome": "BCG",
+      "protecao": "Formas graves de tuberculose, meníngea e miliar",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Covid-19",
+      "protecao": "Covid-19",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Difteria e Tétano (dT)",
+      "protecao": "Difteria e Tétano",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Difteria, Tétano e Pertussis (DTP)",
+      "protecao": "Difteria, Tétano e Coqueluche",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "DTP+Hib+HB",
+      "protecao": "Difteria, Tétano, Coqueluche, Haemophilus influenzae B e Hepatite B",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Febre Amarela (Atenuada)",
+      "protecao": "Febre Amarela",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Hepatite A (HA)",
+      "protecao": "Hepatite A",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Hepatite B recombinante",
+      "protecao": "Hepatite B",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Influenza",
+      "protecao": "Influenza A, B, C e D",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Meningocócica C (Conjugada)",
+      "protecao": "Meningite meningocócica tipo C",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Papilomavírus humano (HPV)",
+      "protecao": "Papilomavírus Humano 6, 11, 16 e 18 (recombinante)",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Pneumocócica 10-valente (PCV 10)",
+      "protecao": "Pneumonias, Meningites, Otites, Sinusites pelos sorotipos que compõem a vacina",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Pneumocócica 23-valente (PPV 23)",
+      "protecao": "Meningite, Sepse Pneumonias, Sinusite, Otite e Bronquite",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Poliomielite 1 e 3 (VOP - atenuada)",
+      "protecao": "Poliomielite",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Poliomielite 1,2,3 (VIP - inativada)",
+      "protecao": "Poliomielite",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Rotavírus humano G1P1 (VRH)",
+      "protecao": "Diarreia por Rotavírus",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Sarampo, Caxumba e Rubéola (SCR)",
+      "protecao": "Sarampo, Caxumba e Rubéola",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Sarampo, Caxumba, Rubéola e Varicela (SCRV)",
+      "protecao": "Sarampo, Caxumba, Rubéola e Varicela",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Varicela",
+      "protecao": "Varicela",
+      "publicoAlvo": "Crianças"
+    },
+    {
+      "nome": "Covid-19",
+      "protecao": "Covid-19",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Difteria e Tétano (dT)",
+      "protecao": "Difteria e Tétano",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Febre Amarela (Atenuada)",
+      "protecao": "Febre Amarela",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Hepatite B recombinante",
+      "protecao": "Hepatite B",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Influenza",
+      "protecao": "Influenza A, B, C e D",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Meningocócica ACWY (Conjugada)",
+      "protecao": "Meningite meningocócica sorogrupos A, C, W e Y",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Papilomavírus humano (HPV)",
+      "protecao": "Papilomavírus Humano 6, 11, 16 e 18 (recombinante)",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Pneumocócica 23-valente (PPV 23)",
+      "protecao": "Meningite, Sepse Pneumonias, Sinusite, Otite e Bronquite",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Sarampo, Caxumba e Rubéola (SCR)",
+      "protecao": "Sarampo, Caxumba e Rubéola",
+      "publicoAlvo": "Adolescentes"
+    },
+    {
+      "nome": "Covid-19",
+      "protecao": "Covid-19",
+      "publicoAlvo": "Adultos"
+    },
+    {
+      "nome": "Difteria e Tétano (dT)",
+      "protecao": "Difteria e Tétano",
+      "publicoAlvo": "Adultos"
+    },
+    {
+      "nome": "Febre Amarela (Atenuada)",
+      "protecao": "Febre Amarela",
+      "publicoAlvo": "Adultos"
+    },
+    {
+      "nome": "Hepatite B recombinante",
+      "protecao": "Hepatite B",
+      "publicoAlvo": "Adultos"
+    },
+    {
+      "nome": "Influenza",
+      "protecao": "Influenza A, B, C e D",
+      "publicoAlvo": "Adultos"
+    },
+    {
+      "nome": "Pneumocócica 23-valente (PPV 23)",
+      "protecao": "Meningite, Sepse Pneumonias, Sinusite, Otite e Bronquite",
+      "publicoAlvo": "Adultos"
+    },
+    {
+      "nome": "Sarampo, Caxumba e Rubéola (SCR)",
+      "protecao": "Sarampo, Caxumba e Rubéola",
+      "publicoAlvo": "Adultos"
+    },
+    {
+      "nome": "Covid-19",
+      "protecao": "Covid-19",
+      "publicoAlvo": "Idosos"
+    },
+    {
+      "nome": "Difteria e Tétano (dT)",
+      "protecao": "Difteria e Tétano",
+      "publicoAlvo": "Idosos"
+    },
+    {
+      "nome": "Febre Amarela (Atenuada)",
+      "protecao": "Febre Amarela",
+      "publicoAlvo": "Idosos"
+    },
+    {
+      "nome": "Hepatite B recombinante",
+      "protecao": "Hepatite B",
+      "publicoAlvo": "Idosos"
+    },
+    {
+      "nome": "Influenza",
+      "protecao": "Influenza A, B, C e D",
+      "publicoAlvo": "Idosos"
+    },
+    {
+      "nome": "Pneumocócica 23-valente (PPV 23)",
+      "protecao": "Meningite, Sepse Pneumonias, Sinusite, Otite e Bronquite",
+      "publicoAlvo": "Idosos"
+    },
+    {
+      "nome": "Sarampo, Caxumba e Rubéola (SCR)",
+      "protecao": "Sarampo, Caxumba e Rubéola",
+      "publicoAlvo": "Idosos"
+    },
+    {
+      "nome": "Covid-19",
+      "protecao": "Covid-19",
+      "publicoAlvo": "Gestantes"
+    },
+    {
+      "nome": "Difteria e Tétano (dT)",
+      "protecao": "Difteria e Tétano",
+      "publicoAlvo": "Gestantes"
+    },
+    {
+      "nome": "Difteria, Tétano e Pertussis acelular (dTpa)",
+      "protecao": "Difteria, Tétano e Coqueluche",
+      "publicoAlvo": "Gestantes"
+    },
+    {
+      "nome": "Hepatite B recombinante",
+      "protecao": "Hepatite B",
+      "publicoAlvo": "Gestantes"
+    },
+    {
+      "nome": "Influenza",
+      "protecao": "Influenza A, B, C e D",
+      "publicoAlvo": "Gestantes"
+    }
+  ]
+  
+
+  

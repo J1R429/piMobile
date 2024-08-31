@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Dependentes</title>
+</head>
+<body>
+    <h1>Gerenciar Dependentes</h1>
+    <a href="/dashboard">Voltar ao Dashboard</a>
+    <% if (dependentes.length > 0) { %>
+        <h2>Meus Dependentes</h2>
+        <ul>
+            <% dependentes.forEach(dependente => { %>
+                <li>
+                    <%= dependente.nome_completo %>
+                    <form action="/remover-dependente" method="POST" style="display:inline;">
+                        <input type="hidden" name="cpfDependente" value="<%= dependente.cpf %>">
+                        <button type="submit">Remover</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>Você não tem dependentes.</p>
+    <% } %>
+</body>
+</html>
