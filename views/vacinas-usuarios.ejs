@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vacinas do Usuário</title>
+</head>
+<body>
+    <h1>Vacinas do Usuário</h1>
+    
+    <h2>Vacinas Tomadas</h2>
+    <% if (vacinasTomadas.length > 0) { %>
+        <ul>
+            <% vacinasTomadas.forEach(vacina => { %>
+                <li><%= vacina.nome %> - Dose: <%= vacina.dose %> - Data: <%= vacina.data_tomada %></li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>Nenhuma vacina tomada.</p>
+    <% } %>
+
+    <h2>Vacinas Não Tomadas</h2>
+    <% if (vacinasNaoTomadas.length > 0) { %>
+        <ul>
+            <% vacinasNaoTomadas.forEach(vacina => { %>
+                <li><%= vacina.nome %></li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>Você tomou todas as vacinas disponíveis.</p>
+    <% } %>
+</body>
+</html>
