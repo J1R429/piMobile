@@ -24,8 +24,10 @@ db.connect(err => {
         console.error('Erro ao conectar ao banco de dados:', err);
         process.exit(1);
     }
-    console.log('Conectado ao banco de dados.');
+    console.log('Conectado ao banco de dados.');   
 });
+
+
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,9 +38,13 @@ app.use(session({
     saveUninitialized: true
 }));
 
+
+
 // Configuração do EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+
 
 // Função para carregar vacinas do arquivo JSON
 const loadVacinas = () => {
@@ -247,6 +253,121 @@ app.get('/lista-vacinas', (req, res) => {
 
     // Renderizar a view com as vacinas agrupadas por faixa etária
     res.render('lista-vacinas', { vacinasPorFaixa });
+});
+
+/// ROTAS ADMINS
+app.get('/admin-login', (req, res) => {
+    res.render('admin-login', { mensagem: null });
+});
+
+app.post('/admin-login', (req, res) => {
+    const { username, password } = req.body;
+
+    const query = 'SELECT * FROM admins WHERE username = ? AND password = ?';
+    
+    db.query(query, [username, password], (err, results) => {
+        if (err) {
+            console.error('Erro ao consultar o banco de dados:', err);
+            return res.status(500).send('Erro no servidor.');
+        }
+        
+        if (results.length > 0) {
+            // Se o login for bem-sucedido, você pode iniciar uma sessão aqui
+            req.session.admin = results[0];
+            res.redirect('/admin-dashboard'); // redireciona para o dashboard do admin
+        } else {
+            res.status(401).send('Nome de usuário ou senha incorretos.');
+        }
+    });
+});
+
+
+
+app.get('/admin-dashboard', (req, res) => {
+    if (!req.session.admin) {
+        return res.redirect('/admin-login');
+    }
+    res.render('admin-dashboard');
+});
+
+
+app.get('/admin-logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) throw err;
+        res.redirect('/admin-login');
+    });
+});
+
+
+
+///// TELA CRUD admin
+
+app.get('/admin/usuarios', (req, res) => {
+    if (!req.session.admin) {
+        return res.redirect('/admin-login');
+    }
+
+    const query = 'SELECT * FROM usuarios';
+    db.query(query, (err, results) => {
+        if (err) throw err;
+        res.render('admin-usuarios', { usuarios: results });
+    });
+});
+
+
+// Rota para criar um novo usuário
+app.post('/admin/criar-usuario', (req, res) => {
+    const { nome_completo, cpf, telefone, email, cartao_sus, data_nascimento, senha } = req.body;
+    const sql = `
+        INSERT INTO usuarios (nome_completo, cpf, telefone, email, cartao_sus, data_nascimento, senha)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    const valores = [nome_completo, cpf, telefone, email, cartao_sus, data_nascimento, senha];
+
+    db.query(sql, valores, (err, result) => {
+        if (err) {
+            console.error('Erro ao criar usuário:', err);
+            return res.status(500).send('Erro no servidor.');
+        }
+        res.redirect('/admin/usuarios');
+    });
+});
+
+// Rota para editar um usuário existente
+app.post('/admin/editar-usuario/:id', (req, res) => {
+    const { id } = req.params;
+    const { nome_completo, telefone, email, cartao_sus, data_nascimento } = req.body;
+    const sql = `
+        UPDATE usuarios SET nome_completo = ?, telefone = ?, email = ?, cartao_sus = ?, data_nascimento = ?
+        WHERE id = ?
+    `;
+    const valores = [nome_completo, telefone, email, cartao_sus, data_nascimento, id];
+
+    db.query(sql, valores, (err, result) => {
+        if (err) {
+            console.error('Erro ao editar usuário:', err);
+            return res.status(500).send('Erro no servidor.');
+        }
+        res.redirect('/admin/usuarios');
+    });
+});
+
+
+// Rota para deletar um usuário
+// Deletar usuário
+
+app.post('/admin/deletar-usuario/:id', (req, res) => {
+    const userId = req.params.id;
+
+    // Usando a variável 'db' para a conexão
+    db.query('DELETE FROM usuarios WHERE id = ?', [userId], (error, results) => {
+        if (error) {
+            console.error('Erro ao deletar o usuário:', error);
+            res.status(500).send('Erro no servidor.');
+            return;
+        }
+        res.redirect('/admin/usuarios');
+    });
 });
 
 

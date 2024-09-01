@@ -1,0 +1,62 @@
+<!-- gerenciar-usuarios.ejs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários</title>
+</head>
+<body>
+    <h1>Gerenciar Usuários</h1>
+
+    <!-- Formulário para criar novo usuário -->
+    <h2>Criar Novo Usuário</h2>
+    <form action="/admin/criar-usuario" method="POST">
+        <label for="nome_completo">Nome Completo:</label>
+        <input type="text" id="nome_completo" name="nome_completo" required><br>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" required><br>
+
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone"><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br>
+
+        <label for="cartao_sus">Cartão SUS:</label>
+        <input type="text" id="cartao_sus" name="cartao_sus"><br>
+
+        <label for="data_nascimento">Data de Nascimento:</label>
+        <input type="date" id="data_nascimento" name="data_nascimento" required><br>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required><br>
+
+        <button type="submit">Criar Usuário</button>
+    </form>
+
+    <!-- Lista de usuários com opção de editar e deletar -->
+    <h2>Usuários Existentes</h2>
+    <ul>
+        <% usuarios.forEach(usuario => { %>
+            <li>
+                <form action="/admin/editar-usuario/<%= usuario.id %>" method="POST">
+                    Nome Completo: <input type="text" name="nome_completo" value="<%= usuario.nome_completo %>"><br>
+                    CPF: <input type="text" name="cpf" value="<%= usuario.cpf %>" readonly><br>
+                    Telefone: <input type="text" name="telefone" value="<%= usuario.telefone %>"><br>
+                    Email: <input type="email" name="email" value="<%= usuario.email %>"><br>
+                    Cartão SUS: <input type="text" name="cartao_sus" value="<%= usuario.cartao_sus %>"><br>
+                    Data de Nascimento: <input type="date" name="data_nascimento" value="<%= usuario.data_nascimento %>"><br>
+                    <button type="submit">Salvar Alterações</button>
+                </form>
+                
+                <form action="/admin/deletar-usuario/<%= usuario.id %>" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este usuário?');">
+                    <button type="submit">Deletar</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>
+
