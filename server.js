@@ -333,6 +333,24 @@ app.post('/admin/criar-usuario', (req, res) => {
     });
 });
 
+
+// Rota para pesquisar usuário por CPF
+app.post('/admin/pesquisar-usuario', (req, res) => {
+    const cpf = req.body.cpf;
+
+    db.query('SELECT * FROM usuarios WHERE cpf = ?', [cpf], (error, results) => {
+        if (error) {
+            console.error('Erro ao buscar usuário:', error);
+            res.status(500).send('Erro no servidor.');
+            return;
+        }
+        res.render('admin-usuarios', { usuarios: results });
+    });
+});
+
+
+
+
 // Rota para editar um usuário existente
 app.post('/admin/editar-usuario/:id', (req, res) => {
     const { id } = req.params;
