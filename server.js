@@ -1,4 +1,5 @@
 const express = require('express');
+//const mysql = require('mysql');
 const mysql = require('mysql2');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -31,6 +32,7 @@ db.connect(err => {
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'secreto',
@@ -191,38 +193,35 @@ app.post('/remover-dependente', (req, res) => {
 });
 
 // Rota para exibir vacinas tomadas e não tomadas
+// Rota para exibir vacinas do usuário
 app.get('/vacinas-usuarios', (req, res) => {
-    const usuarioId = req.session.usuarioId;
+    const faixaEtaria = req.query.faixaEtaria;
 
-    if (!usuarioId) {
-        return res.redirect('/login');
-    }
+    // Consulta para obter as vacinas tomadas pelo usuário
+    const vacinasTomadasQuery = `
+        SELECT v.nome, v.protecao
+        FROM vacinas_usuarios vu
+        JOIN vacinas v ON vu.vacina_id = v.id
+        WHERE vu.usuario_id = ?`;
 
-    db.query(`
-        SELECT v.nome, vu.data_tomada, vu.dose
-        FROM vacinas v
-        JOIN vacinas_usuarios vu ON v.id = vu.vacina_id
-        WHERE vu.usuario_id = ?
-    `, [usuarioId], (err, vacinasTomadas) => {
-        if (err) {
-            console.error("Erro ao consultar vacinas tomadas:", err);
-            return res.render('erro', { mensagem: "Erro ao consultar vacinas." });
-        }
+    // Consulta para obter as vacinas disponíveis para a faixa etária selecionada
+    const vacinasDisponiveisQuery = `
+        SELECT nome, protecao
+        FROM vacinas
+        WHERE faixaEtaria = ?`;
 
-        db.query(`
-            SELECT v.nome
-            FROM vacinas v
-            LEFT JOIN vacinas_usuarios vu ON v.id = vu.vacina_id AND vu.usuario_id = ?
-            WHERE vu.vacina_id IS NULL
-        `, [usuarioId], (err, vacinasNaoTomadas) => {
-            if (err) {
-                console.error("Erro ao consultar vacinas não tomadas:", err);
-                return res.render('erro', { mensagem: "Erro ao consultar vacinas." });
-            }
+    // Suponha que você tenha o ID do usuário armazenado em uma variável ou sessão
+    const usuarioId = 1; // Substitua pelo ID do usuário real
+
+    db.query(vacinasTomadasQuery, [usuarioId], (err, vacinasTomadas) => {
+        if (err) throw err;
+
+        db.query(vacinasDisponiveisQuery, [faixaEtaria], (err, vacinasDisponiveis) => {
+            if (err) throw err;
 
             res.render('vacinas-usuarios', {
                 vacinasTomadas: vacinasTomadas,
-                vacinasNaoTomadas: vacinasNaoTomadas
+                vacinasDisponiveis: vacinasDisponiveis
             });
         });
     });
@@ -387,6 +386,79 @@ app.post('/admin/deletar-usuario/:id', (req, res) => {
         res.redirect('/admin/usuarios');
     });
 });
+
+
+
+// Rota para exibir a página de administração
+app.get('/admin-vacinas', (req, res) => {
+    const cpf = req.query.cpf;
+    
+    if (cpf) {
+        // Buscar usuário pelo CPF
+        db.query('SELECT * FROM usuarios WHERE cpf = ?', [cpf], (err, results) => {
+            if (err) {
+                console.error('Erro ao buscar usuário:', err);
+                return res.status(500).send('Erro no servidor.');
+            }
+            
+            const usuario = results[0];
+            
+            // Buscar todas as vacinas
+            db.query('SELECT * FROM vacinas', (err, vacinas) => {
+                if (err) {
+                    console.error('Erro ao buscar vacinas:', err);
+                    return res.status(500).send('Erro no servidor.');
+                }
+                
+                res.render('admin-vacinas', {
+                    usuario: usuario || null, // Garantir que usuario não seja undefined
+                    vacinas: vacinas,
+                    feedback: null, // Adicionar valores padrão
+                    error: null // Adicionar valores padrão
+                });
+            });
+        });
+    } else {
+        res.render('admin-vacinas', {
+            usuario: null, // Garantir que usuario seja definido
+            vacinas: [],
+            feedback: null, // Adicionar valores padrão
+            error: null // Adicionar valores padrão
+        });
+    }
+});
+
+
+
+
+// Rota para adicionar vacinas
+app.post('/admin-vacinas', (req, res) => {
+    const { usuario_id, vacina_id, data_tomada, dose, proxima_dose } = req.body;
+    
+    const query = 'INSERT INTO vacinas_usuarios (usuario_id, vacina_id, data_tomada, dose, proxima_dose) VALUES (?, ?, ?, ?, ?)';
+    const values = [usuario_id, vacina_id, data_tomada, dose, proxima_dose || null];
+    
+    db.query(query, values, (err) => {
+        if (err) {
+            console.error('Erro ao adicionar vacina:', err);
+            res.render('admin-vacinas', {
+                usuario: { id: usuario_id }, // Fornecer um objeto usuário básico para não quebrar a renderização
+                vacinas: [], // Atualize conforme necessário
+                error: 'Erro ao adicionar vacina',
+                feedback: null
+            });
+        } else {
+            res.render('admin-vacinas', {
+                usuario: { id: usuario_id }, // Fornecer um objeto usuário básico para não quebrar a renderização
+                vacinas: [], // Atualize conforme necessário
+                feedback: 'Vacina adicionada com sucesso',
+                error: null
+            });
+        }
+    });
+});
+
+
 
 
 

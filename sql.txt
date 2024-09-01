@@ -1,0 +1,130 @@
+Notas:
+Tabela usuarios: Armazena informações dos usuários, incluindo a referência para o gestor, se aplicável.
+Tabela vacinas: Armazena informações sobre as vacinas disponíveis.
+Tabela vacinas_usuarios: Relaciona usuários com as vacinas que eles tomaram.
+Tabela admin (opcional): Caso você queira gerenciar administradores de forma separada, com uma tabela dedicada a isso.
+
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_completo VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+    telefone VARCHAR(20),
+    email VARCHAR(255),
+    cartao_sus VARCHAR(20),
+    data_nascimento DATE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    endereco VARCHAR(255),
+    gestor_id INT,
+    FOREIGN KEY (gestor_id) REFERENCES usuarios(id)
+);
+
+
+CREATE TABLE vacinas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    protecao VARCHAR(255) NOT NULL,
+    faixa_etaria VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE vacinas_usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    vacina_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (vacina_id) REFERENCES vacinas(id)
+);
+
+
+CREATE TABLE admin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL
+);
+
+
+
+Nome: BCG
+Proteção: Formas graves de tuberculose, meníngea e miliar
+Faixa etária: Crianças
+
+Nome: Covid-19
+Proteção: Covid-19
+Faixa etária: Crianças, Adolescentes, Adultos, Idosos, Gestantes
+
+Nome: Difteria e Tétano (dT)
+Proteção: Difteria e Tétano
+Faixa etária: Crianças, Adolescentes, Adultos, Idosos, Gestantes
+
+Nome: Difteria, Tétano e Pertussis (DTP)
+Proteção: Difteria, Tétano e Coqueluche
+Faixa etária: Crianças
+
+Nome: DTP+Hib+HB
+Proteção: Difteria, Tétano, Coqueluche, Haemophilus influenzae B e Hepatite B
+Faixa etária: Crianças
+
+Nome: Febre Amarela (Atenuada)
+Proteção: Febre Amarela
+Faixa etária: Crianças, Adolescentes, Adultos, Idosos
+
+Nome: Hepatite A (HA)
+Proteção: Hepatite A
+Faixa etária: Crianças
+
+Nome: Hepatite B recombinante
+Proteção: Hepatite B
+Faixa etária: Crianças, Adolescentes, Adultos, Idosos, Gestantes
+
+Nome: Influenza
+Proteção: Influenza A, B, C e D
+Faixa etária: Crianças, Adolescentes, Adultos, Idosos, Gestantes
+
+Nome: Meningocócica C (Conjugada)
+Proteção: Meningite meningocócica tipo C
+Faixa etária: Crianças
+
+Nome: Meningocócica ACWY (Conjugada)
+Proteção: Meningite meningocócica sorogrupos A, C, W e Y
+Faixa etária: Adolescentes
+
+Nome: Papilomavírus humano (HPV)
+Proteção: Papilomavírus Humano 6, 11, 16 e 18 (recombinante)
+Faixa etária: Crianças, Adolescentes
+
+Nome: Pneumocócica 10-valente (PCV 10)
+Proteção: Pneumonias, Meningites, Otites, Sinusites pelos sorotipos que compõem a vacina
+Faixa etária: Crianças
+
+Nome: Pneumocócica 23-valente (PPV 23)
+Proteção: Meningite, Sepse Pneumonias, Sinusite, Otite e Bronquite
+Faixa etária: Crianças, Adolescentes, Adultos, Idosos
+
+Nome: Poliomielite 1 e 3 (VOP - atenuada)
+Proteção: Poliomielite
+Faixa etária: Crianças
+
+Nome: Poliomielite 1,2,3 (VIP - inativada)
+Proteção: Poliomielite
+Faixa etária: Crianças
+
+Nome: Rotavírus humano G1P1 (VRH)
+Proteção: Diarreia por Rotavírus
+Faixa etária: Crianças
+
+Nome: Sarampo, Caxumba e Rubéola (SCR)
+Proteção: Sarampo, Caxumba e Rubéola
+Faixa etária: Crianças, Adolescentes, Adultos, Idosos
+
+Nome: Sarampo, Caxumba, Rubéola e Varicela (SCRV)
+Proteção: Sarampo, Caxumba, Rubéola e Varicela
+Faixa etária: Crianças
+
+Nome: Varicela
+Proteção: Varicela
+Faixa etária: Crianças
+
+Nome: Difteria, Tétano e Pertussis acelular (dTpa)
+Proteção: Difteria, Tétano e Coqueluche
+Faixa etária: Gestantes

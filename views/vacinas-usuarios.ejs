@@ -1,31 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vacinas do Usuário</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .box {
+            width: 45%;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .vacinas-lista {
+            list-style: none;
+            padding: 0;
+        }
+        .vacinas-lista li {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Vacinas do Usuário</h1>
     
-    <h2>Vacinas Tomadas</h2>
-    <% if (vacinasTomadas.length > 0) { %>
-        <ul>
-            <% vacinasTomadas.forEach(vacina => { %>
-                <li><%= vacina.nome %> - Dose: <%= vacina.dose %> - Data: <%= vacina.data_tomada %></li>
-            <% }) %>
-        </ul>
-    <% } else { %>
-        <p>Nenhuma vacina tomada.</p>
-    <% } %>
-
-    <h2>Vacinas Não Tomadas</h2>
-    <% if (vacinasNaoTomadas.length > 0) { %>
-        <ul>
-            <% vacinasNaoTomadas.forEach(vacina => { %>
-                <li><%= vacina.nome %></li>
-            <% }) %>
-        </ul>
-    <% } else { %>
-        <p>Você tomou todas as vacinas disponíveis.</p>
-    <% } %>
+    <form action="/vacinas-usuarios" method="GET">
+        <label for="faixaEtaria">Selecione sua faixa etária:</label>
+        <select id="faixaEtaria" name="faixaEtaria">
+            <option value="Crianças">Crianças</option>
+            <option value="Adolescentes">Adolescentes</option>
+            <option value="Adultos">Adultos</option>
+            <option value="Idosos">Idosos</option>
+            <option value="Gestantes">Gestantes</option>
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+    
+    <div class="container">
+        <div class="box">
+            <h2>Vacinas Tomadas</h2>
+            <ul class="vacinas-lista">
+                <% vacinasTomadas.forEach(function(vacina) { %>
+                    <li><%= vacina.nome %> - <%= vacina.protecao %></li>
+                <% }); %>
+            </ul>
+        </div>
+        <div class="box">
+            <h2>Vacinas Disponíveis</h2>
+            <ul class="vacinas-lista">
+                <% vacinasDisponiveis.forEach(function(vacina) { %>
+                    <li><%= vacina.nome %> - <%= vacina.protecao %></li>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
