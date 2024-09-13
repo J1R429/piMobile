@@ -12,35 +12,6 @@ const saltRounds = 10; // número de salt rounds
 const app = express();
 const port = 3000;
 
-// Configuração do banco de dados
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'joe123',
-    database: 'controle_vacinas'
-});
-
-db.connect(err => {
-    if (err) {
-        console.error('Erro ao conectar ao banco de dados:', err);
-        process.exit(1);
-    }
-    console.log('Conectado ao banco de dados.');   
-});
-
-
-
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-    secret: 'secreto',
-    resave: false,
-    saveUninitialized: true
-}));
-
-
 
 // Configuração do EJS
 app.set('view engine', 'ejs');
@@ -54,6 +25,47 @@ const loadVacinas = () => {
     const data = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(data);
 };
+
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(session({
+    secret: 'secreto',
+    resave: false,
+    saveUninitialized: true
+}));
+
+
+// Criação da conexão com o MySQL diretamente no server.js
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root', // Substitua com a sua senha
+    database: 'controle_vacinas'  // Substitua com o nome do seu banco de dados
+});
+
+// Conectando ao banco de dados
+db.connect(err => {
+    if (err) {
+        console.error('Erro ao conectar ao banco de dados:', err);
+        process.exit(1);
+    }
+    console.log('Conectado ao banco de dados');
+});
+
+
+// Middleware para verificar a sessão
+const verificarSessao = (req, res, next) => {
+    if (req.session.usuario) {
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+
 
 // Rota para página de cadastro
 app.get('/cadastro', (req, res) => {
@@ -85,6 +97,8 @@ app.post('/cadastro', (req, res) => {
     });
 });
 
+
+
 // Rota para página de login
 app.get('/login', (req, res) => {
     res.render('login');
@@ -104,7 +118,7 @@ app.post('/login', (req, res) => {
         }
 
         if (results.length === 0) {
-            return res.status(401).send('CPF ou senha incorretos');
+            res.redirect('/login?erro=Credenciais inválidas');
         }
 
         const usuario = results[0];
@@ -117,36 +131,116 @@ app.post('/login', (req, res) => {
             }
 
             if (!match) {
-                return res.status(401).send('CPF ou senha incorretos');
+                return res.redirect('/login?erro=Credenciais inválidas');
             }
 
             // Login bem-sucedido
-            req.session.usuarioId = usuario.id; // Correção do nome da chave da sessão
-            res.redirect('/dashboard');
+            req.session.usuario = usuario; // Armazenar o usuário na sessão
+            req.session.usuarioId = usuario.id;
+            req.session.cpf = usuario.cpf; // Armazena o CPF na sessão
+            req.session.isAdmin = usuario.isAdmin; // Armazena se o usuário é admin
+            return res.redirect('/dashboard');
         });
     });
 });
 
-// Rota para dashboard
-app.get('/dashboard', (req, res) => {
-    if (!req.session.usuarioId) return res.redirect('/login'); // Correção do nome da chave da sessão
 
-    res.render('dashboard');
+
+
+// Rota para dashboard
+app.get('/dashboard', verificarSessao, (req, res) => {
+    // Supondo que você já tenha as informações do usuário na sessão
+    const usuario = req.session.usuario;
+
+    // Renderizar a página dashboard.ejs e passar o objeto usuario
+    res.render('dashboard', { usuario });
 });
+
+
+
+// Rota para login como dependente
+app.post('/login-como-dependente', (req, res) => {
+    const { cpf } = req.body;
+
+    // Verificar se o usuário atual é um gestor
+    if (!req.session.usuarioId) {
+        return res.status(403).send('Usuário não autenticado');
+    }
+
+    // Busca o dependente no banco de dados
+    const query = 'SELECT * FROM usuarios WHERE cpf = ? AND gestor_id = ?';
+
+    db.query(query, [cpf, req.session.usuarioId], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar o dependente:', err);
+            return res.status(500).send('Erro interno do servidor');
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('Dependente não encontrado ou não vinculado a este gestor');
+        }
+
+        const dependente = results[0];
+
+        // Salvar o ID do gestor na sessão (se ainda não estiver salvo) para poder voltar depois
+        if (!req.session.gestorId) {
+            req.session.gestorId = req.session.usuarioId;
+        }
+
+        // Alterar a sessão para o dependente
+        req.session.usuarioId = dependente.id;
+        req.session.cpf = dependente.cpf;
+        req.session.nome = dependente.nome_completo; // Se você usar o nome no dashboard
+        req.session.isAdmin = false; // Se precisar de uma flag de admin
+
+        // Redirecionar para o dashboard do dependente
+        res.redirect('/dashboard');
+    });
+});
+
+
+// Rota para voltar ao perfil do gestor
+app.post('/voltar-ao-gestor', (req, res) => {
+    if (req.session.gestorId) {
+        // Restaurar o login do gestor
+        req.session.usuarioId = req.session.gestorId;
+        delete req.session.gestorId; // Limpar o gestor da sessão
+
+        // Redirecionar para o dashboard do gestor
+        res.redirect('/dashboard');
+    } else {
+        res.status(400).send('Nenhum gestor salvo na sessão');
+    }
+});
+
+
+
 
 // Rota para gerenciar dependentes
 app.get('/gerenciar-dependentes', (req, res) => {
-    if (!req.session.usuarioId) return res.redirect('/login'); // Correção do nome da chave da sessão
+    // Certifique-se de que o usuário esteja autenticado
+    if (!req.session.usuario) {
+        return res.redirect('/login');
+    }
 
-    db.query('SELECT * FROM usuarios WHERE gestor_id = ?', [req.session.usuarioId], (err, dependentes) => { // Correção do nome da chave da sessão
+    const usuario = req.session.usuario; // Obtém o usuário da sessão
+
+    // Consulta para obter dependentes do usuário
+    const query = 'SELECT * FROM usuarios WHERE gestor_id = ?';
+    db.query(query, [usuario.id], (err, dependentes) => {
         if (err) {
-            console.error('Erro ao consultar dependentes:', err);
-            return res.status(500).send('Erro ao consultar dependentes.');
+            console.error('Erro na consulta ao banco de dados:', err);
+            return res.status(500).send('Erro interno do servidor');
         }
 
-        res.render('gerenciar-dependentes', { dependentes });
+        // Renderiza a página passando o usuário e dependentes
+        res.render('gerenciar-dependentes', {
+            usuario: usuario,
+            dependentes: dependentes
+        });
     });
 });
+
 
 // Rota para vincular dependentes
 app.get('/vincular-dependentes', (req, res) => {
@@ -193,35 +287,41 @@ app.post('/remover-dependente', (req, res) => {
 });
 
 // Rota para exibir vacinas tomadas e não tomadas
-// Rota para exibir vacinas do usuário
-app.get('/vacinas-usuarios', (req, res) => {
+// Rota para exibir as vacinas do usuário ou dependente
+app.get('/vacinas-usuarios', verificarSessao, (req, res) => {
+    const usuarioId = req.session.usuarioId;
     const faixaEtaria = req.query.faixaEtaria;
 
-    // Consulta para obter as vacinas tomadas pelo usuário
-    const vacinasTomadasQuery = `
-        SELECT v.nome, v.protecao
-        FROM vacinas_usuarios vu
-        JOIN vacinas v ON vu.vacina_id = v.id
-        WHERE vu.usuario_id = ?`;
-
-    // Consulta para obter as vacinas disponíveis para a faixa etária selecionada
-    const vacinasDisponiveisQuery = `
-        SELECT nome, protecao
+    // Consulta SQL para buscar as vacinas do usuário (ou dependente) específico
+    const queryVacinasTomadas = `
+        SELECT v.nome, v.protecao, v.faixaEtaria
+        FROM vacinas AS v
+        INNER JOIN vacinas_usuarios AS vu ON v.id = vu.vacina_id
+        WHERE vu.usuario_id = ?
+    `;
+    
+    const queryVacinasDisponiveis = `
+        SELECT nome, protecao, faixaEtaria
         FROM vacinas
-        WHERE faixaEtaria = ?`;
+        WHERE faixaEtaria = ?
+    `;
 
-    // Suponha que você tenha o ID do usuário armazenado em uma variável ou sessão
-    const usuarioId = 1; // Substitua pelo ID do usuário real
+    db.query(queryVacinasTomadas, [usuarioId], (err, vacinasTomadas) => {
+        if (err) {
+            console.error('Erro ao consultar as vacinas tomadas:', err);
+            return res.status(500).send('Erro interno do servidor');
+        }
 
-    db.query(vacinasTomadasQuery, [usuarioId], (err, vacinasTomadas) => {
-        if (err) throw err;
-
-        db.query(vacinasDisponiveisQuery, [faixaEtaria], (err, vacinasDisponiveis) => {
-            if (err) throw err;
+        db.query(queryVacinasDisponiveis, [faixaEtaria], (err, vacinasDisponiveis) => {
+            if (err) {
+                console.error('Erro ao consultar as vacinas disponíveis:', err);
+                return res.status(500).send('Erro interno do servidor');
+            }
 
             res.render('vacinas-usuarios', {
-                vacinasTomadas: vacinasTomadas,
-                vacinasDisponiveis: vacinasDisponiveis
+                vacinasTomadas,
+                vacinasDisponiveis,
+                usuario: req.session.usuario // Passa o usuário logado para a visualização
             });
         });
     });
@@ -460,7 +560,7 @@ app.post('/admin-vacinas', (req, res) => {
 
 
 
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 

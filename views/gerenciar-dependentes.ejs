@@ -5,23 +5,23 @@
     <title>Gerenciar Dependentes</title>
 </head>
 <body>
-    <h1>Gerenciar Dependentes</h1>
-    <a href="/dashboard">Voltar ao Dashboard</a>
-    <% if (dependentes.length > 0) { %>
-        <h2>Meus Dependentes</h2>
-        <ul>
-            <% dependentes.forEach(dependente => { %>
-                <li>
-                    <%= dependente.nome_completo %>
-                    <form action="/remover-dependente" method="POST" style="display:inline;">
-                        <input type="hidden" name="cpfDependente" value="<%= dependente.cpf %>">
-                        <button type="submit">Remover</button>
-                    </form>
-                </li>
-            <% }); %>
-        </ul>
-    <% } else { %>
-        <p>Você não tem dependentes.</p>
-    <% } %>
+    <h1>Gerenciar Dependentes - <%= usuario.nome_completo %></h1>
+    <ul>
+        <% dependentes.forEach(function(dependente) { %>
+            <li>
+                Nome: <%= dependente.nome_completo %> (CPF: <%= dependente.cpf %>)
+                <form action="/login-como-dependente" method="POST" style="display:inline;">
+                    <input type="hidden" name="cpf" value="<%= dependente.cpf %>">
+                    <button type="submit">Login como dependente</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+    <!-- Botão para voltar ao perfil do gestor -->
+    <form action="/voltar-ao-gestor" method="POST">
+        <button type="submit">Voltar ao perfil do gestor</button>
+    </form>
 </body>
 </html>
+
+

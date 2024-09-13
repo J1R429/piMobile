@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h1>Vacinas do Usuário</h1>
+    <h1>Vacinas do Usuário - <%= usuario.nome_completo %></h1>
     
     <form action="/vacinas-usuarios" method="GET">
         <label for="faixaEtaria">Selecione sua faixa etária:</label>
@@ -45,7 +45,11 @@
             <h2>Vacinas Tomadas</h2>
             <ul class="vacinas-lista">
                 <% vacinasTomadas.forEach(function(vacina) { %>
-                    <li><%= vacina.nome %> - <%= vacina.protecao %></li>
+                    <li>
+                        <strong>Nome:</strong> <%= vacina.nome %><br>
+                        <strong>Proteção:</strong> <%= vacina.protecao %><br>
+                        <strong>Faixa Etária:</strong> <%= vacina.faixaEtaria %><br>
+                    </li>
                 <% }); %>
             </ul>
         </div>
@@ -53,10 +57,18 @@
             <h2>Vacinas Disponíveis</h2>
             <ul class="vacinas-lista">
                 <% vacinasDisponiveis.forEach(function(vacina) { %>
-                    <li><%= vacina.nome %> - <%= vacina.protecao %></li>
+                    <li>
+                        <strong>Nome:</strong> <%= vacina.nome %><br>
+                        <strong>Proteção:</strong> <%= vacina.protecao %><br>
+                        <strong>Faixa Etária:</strong> <%= vacina.faixaEtaria %><br>
+                    </li>
                 <% }); %>
             </ul>
         </div>
     </div>
+    <!-- Botão para voltar ao perfil do gestor -->
+    <form action="/voltar-ao-gestor" method="POST">
+        <button type="submit">Voltar ao perfil do gestor</button>
+    </form>
 </body>
 </html>
