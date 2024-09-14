@@ -1,0 +1,37 @@
+/* responsivo.css */
+@media (max-width: 768px) {
+    /* Ajustes para telas menores, como celulares */
+    body {
+        background-color: #ffffff; /* Exemplo de alteração de fundo */
+    }
+
+    header, footer {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    /* Exemplo para ajustar imagens */
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustes para telas ainda menores */
+    header, footer {
+        font-size: 12px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}

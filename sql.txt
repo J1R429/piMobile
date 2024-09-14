@@ -37,14 +37,14 @@ CREATE TABLE vacinas_usuarios (
 );
 
 
-CREATE TABLE admin (
+CREATE TABLE admins (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL
 );
 
 
-
+-VACINAS PASTA DATA
 Nome: BCG
 Proteção: Formas graves de tuberculose, meníngea e miliar
 Faixa etária: Crianças
