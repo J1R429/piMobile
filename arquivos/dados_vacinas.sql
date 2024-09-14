@@ -1,0 +1,66 @@
+CREATE DATABASE  IF NOT EXISTS `controle_vacinas` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `controle_vacinas`;
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
+--
+-- Host: localhost    Database: controle_vacinas
+-- ------------------------------------------------------
+-- Server version	8.0.39
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Dumping data for table `dependentes`
+--
+
+LOCK TABLES `dependentes` WRITE;
+/*!40000 ALTER TABLE `dependentes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dependentes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'jessica fernandes da silva','22968719840','988939942','jessica.fernandes.adv@outlook.com','000','1992-05-24','$2b$10$2VOj4ong7NVYv/2lz71rJORdB6BmV75Y3xJnGq5XnL.0kmd0u1HRK',NULL),(2,'joe fernandes','00000000000','47072892','joe@teste.com','123456','2022-08-08','$2b$10$XmEY4MPHaJ1ofXXll2dvSewbVQg3ZkxVrReogVTtTS3HI.P..cqRO',NULL),(3,'menina fernandes','12345678900','47072892','menina@teste.com','123456','2024-08-23','$2b$10$tPwnHkPq/ZbSujL4YtGVF.ej/B6jk0Up/l0hl6lyB15Q8eTUOOO.W',1);
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `vacinas`
+--
+
+LOCK TABLES `vacinas` WRITE;
+/*!40000 ALTER TABLE `vacinas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vacinas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `vacinas_tomadas`
+--
+
+LOCK TABLES `vacinas_tomadas` WRITE;
+/*!40000 ALTER TABLE `vacinas_tomadas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vacinas_tomadas` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-08-30 17:32:49

@@ -1,21 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <head>
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/lista-vacinas.css">
+        <link rel="stylesheet" href="/css/carrossel.css">
+        <link rel="stylesheet" href="/css/responsivo.css">
+    </head>
     <title>Lista de Vacinas</title>
 </head>
 <body>
+    <header>
+        <img src="/images/logo_vacisus.jpg" alt="Logo" class="logo">
+    </header>
+
     <h1>Lista de Vacinas</h1>
 
     <% for (const faixaEtaria in vacinasPorFaixa) { %>
-        <h2><%= faixaEtaria %></h2>
-        <ul>
-            <% vacinasPorFaixa[faixaEtaria].forEach(vacina => { %>
-                <li>
-                    <strong><%= vacina.nome %></strong>: <%= vacina.protecao %>
-                </li>
-            <% }); %>
-        </ul>
+        <div class="carrossel-container">
+            <h2><%= faixaEtaria %></h2>
+
+            <div class="carrossel">
+                <button class="prev" onclick="moverCarrossel('<%= faixaEtaria %>', -1)">&#10094;</button>
+                
+                <div class="carrossel-items" id="carrossel-<%= faixaEtaria %>">
+                    <% vacinasPorFaixa[faixaEtaria].forEach(vacina => { %>
+                        <div class="carrossel-item">
+                            <strong><%= vacina.nome %></strong>: <%= vacina.protecao %>
+                        </div>
+                    <% }); %>
+                </div>
+
+                <button class="next" onclick="moverCarrossel('<%= faixaEtaria %>', 1)">&#10095;</button>
+            </div>
+        </div>
     <% } %>
+
+    <script>
+        function moverCarrossel(faixa, direcao) {
+            const carrossel = document.getElementById(`carrossel-${faixa}`);
+            carrossel.scrollBy({
+                left: direcao * 200, // Ajuste a distância do scroll conforme necessário
+                behavior: 'smooth'
+            });
+        }
+    </script>
 
 </body>
 </html>

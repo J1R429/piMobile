@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Vincular Dependentes</title>
-</head>
-<body>
-    <h1>Vincular Dependentes</h1>
-    <form action="/vincular-dependentes" method="POST">
-        <label for="cpfDependente">CPF do Dependente:</label>
-        <input type="text" id="cpfDependente" name="cpfDependente" required>
-        <button type="submit">Vincular Dependente</button>
-    </form>
-    <% if (mensagem) { %>
-        <p><%= mensagem %></p>
-    <% } %>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <head>
+        </head>
+            <link rel="stylesheet" href="/css/global.css">
+            <link rel="stylesheet" href="/css/vincular-dependentes.css">
+            <link rel="stylesheet" href="/css/responsivo.css">
+        </head>
+
+        <title>Vincular Dependentes</title>
+    </head>
+
+    <body>
+        <header>
+            <img src="/images/icone-logo.ico" alt="Logo" class="logo">
+        </header>
+        <h1>Vincular Dependentes</h1>
+        <form action="/vincular-dependentes" method="POST">
+            <label for="cpfDependente">CPF do Dependente:</label>
+            <input type="text" id="cpfDependente" name="cpfDependente" required>
+            <button type="submit">Vincular Dependente</button>
+        </form>
+        <% if (mensagem) { %>
+            <p><%= mensagem %></p>
+        <% } %>
+    </body>
 </html>

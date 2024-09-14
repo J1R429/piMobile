@@ -2,10 +2,18 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <head>
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/gerenciar-dependentes.css">
+        <link rel="stylesheet" href="/css/responsivo.css">
+    </head>
     <title>Gerenciar Dependentes</title>
 </head>
 <body>
-    <h1>Gerenciar Dependentes - <%= usuario.nome_completo %></h1>
+    <header>
+        <img src="/images/logo_vacisus.jpg" alt="Logo" class="logo">
+    </header>
+    <h1>Gerenciar Dependentes de <%= usuario.nome_completo %></h1>
     <ul>
         <% dependentes.forEach(function(dependente) { %>
             <li>

@@ -1,74 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacinas do Usuário</title>
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .box {
-            width: 45%;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .vacinas-lista {
-            list-style: none;
-            padding: 0;
-        }
-        .vacinas-lista li {
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Vacinas do Usuário - <%= usuario.nome_completo %></h1>
-    
-    <form action="/vacinas-usuarios" method="GET">
-        <label for="faixaEtaria">Selecione sua faixa etária:</label>
-        <select id="faixaEtaria" name="faixaEtaria">
-            <option value="Crianças">Crianças</option>
-            <option value="Adolescentes">Adolescentes</option>
-            <option value="Adultos">Adultos</option>
-            <option value="Idosos">Idosos</option>
-            <option value="Gestantes">Gestantes</option>
-        </select>
-        <button type="submit">Buscar</button>
-    </form>
-    
-    <div class="container">
-        <div class="box">
-            <h2>Vacinas Tomadas</h2>
-            <ul class="vacinas-lista">
-                <% vacinasTomadas.forEach(function(vacina) { %>
-                    <li>
-                        <strong>Nome:</strong> <%= vacina.nome %><br>
-                        <strong>Proteção:</strong> <%= vacina.protecao %><br>
-                        <strong>Faixa Etária:</strong> <%= vacina.faixaEtaria %><br>
-                    </li>
-                <% }); %>
-            </ul>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <head>
+            <link rel="stylesheet" href="/css/global.css">
+            <link rel="stylesheet" href="/css/vacinas-usuarios.css">
+            <link rel="stylesheet" href="/css/responsivo.css">
+        </head>
+
+        <title>Vacinas do Usuário</title>
+        <style>
+            .container {
+                display: flex;
+                justify-content: space-between;
+            }
+            .box {
+                width: 45%;
+                padding: 20px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+            .vacinas-lista {
+                list-style: none;
+                padding: 0;
+            }
+            .vacinas-lista li {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <img src="/images/logo_vacisus.jpg" alt="Logo" class="logo">
+        </header>
+        <h1>Vacinas do Usuário - <%= usuario.nome_completo %></h1>
+        
+        <form action="/vacinas-usuarios" method="GET">
+            <label for="faixaEtaria">Selecione sua faixa etária:</label>
+            <select id="faixaEtaria" name="faixaEtaria">
+                <option value="Crianças">Crianças</option>
+                <option value="Adolescentes">Adolescentes</option>
+                <option value="Adultos">Adultos</option>
+                <option value="Idosos">Idosos</option>
+                <option value="Gestantes">Gestantes</option>
+            </select>
+            <button type="submit">Buscar</button>
+        </form>
+        
+        <div class="container">
+            <div class="box">
+                <h2>Vacinas Tomadas</h2>
+                <ul class="vacinas-lista">
+                    <% vacinasTomadas.forEach(function(vacina) { %>
+                        <li>
+                            <strong>Nome:</strong> <%= vacina.nome %><br>
+                            <strong>Proteção:</strong> <%= vacina.protecao %><br>
+                            <strong>Faixa Etária:</strong> <%= vacina.faixaEtaria %><br>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+            <div class="box">
+                <h2>Vacinas Disponíveis</h2>
+                <ul class="vacinas-lista">
+                    <% vacinasDisponiveis.forEach(function(vacina) { %>
+                        <li>
+                            <strong>Nome:</strong> <%= vacina.nome %><br>
+                            <strong>Proteção:</strong> <%= vacina.protecao %><br>
+                            <strong>Faixa Etária:</strong> <%= vacina.faixaEtaria %><br>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
         </div>
-        <div class="box">
-            <h2>Vacinas Disponíveis</h2>
-            <ul class="vacinas-lista">
-                <% vacinasDisponiveis.forEach(function(vacina) { %>
-                    <li>
-                        <strong>Nome:</strong> <%= vacina.nome %><br>
-                        <strong>Proteção:</strong> <%= vacina.protecao %><br>
-                        <strong>Faixa Etária:</strong> <%= vacina.faixaEtaria %><br>
-                    </li>
-                <% }); %>
-            </ul>
-        </div>
-    </div>
-    <!-- Botão para voltar ao perfil do gestor -->
-    <form action="/voltar-ao-gestor" method="POST">
-        <button type="submit">Voltar ao perfil do gestor</button>
-    </form>
-</body>
+        <!-- Botão para voltar ao perfil do gestor -->
+        <form action="/voltar-ao-gestor" method="POST">
+            <button type="submit">Voltar ao perfil do gestor</button>
+        </form>
+    </body>
 </html>
