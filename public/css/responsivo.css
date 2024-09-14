@@ -18,10 +18,26 @@
         font-size: 16px;
     }
 
-    /* Exemplo para ajustar imagens */
+    
     img {
         width: 100%;
         height: auto;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    form {
+        padding: 10px;
+    }
+
+    input, select, textarea {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
     }
 }
 
