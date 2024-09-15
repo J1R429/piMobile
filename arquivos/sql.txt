@@ -44,6 +44,34 @@ CREATE TABLE admins (
 );
 
 
+CREATE TABLE vacinas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,          -- Nome da vacina
+    protecao VARCHAR(255) NOT NULL,      -- Doença ou condição que a vacina protege
+    faixa_etaria VARCHAR(50) NOT NULL    -- Faixa etária recomendada (ex: Crianças, Adultos, Idosos)
+);
+
+
+INSERT INTO vacinas (nome, protecao, faixa_etaria) VALUES
+('BCG', 'Protege contra formas graves de tuberculose, meníngea e miliar', 'Crianças'),
+('Hepatite B', 'Protege contra Hepatite B', 'Crianças'),
+('DTP', 'Protege contra Difteria, Tétano e Coqueluche', 'Crianças'),
+('Hib', 'Protege contra infecções por Haemophilus influenzae tipo b', 'Crianças'),
+('Poliomielite', 'Protege contra a poliomielite', 'Crianças'),
+('Rotavírus', 'Protege contra infecções gastrointestinais causadas por rotavírus', 'Crianças'),
+('Pneumocócica', 'Protege contra infecções por Streptococcus pneumoniae', 'Crianças'),
+('Meningocócica', 'Protege contra infecções por Neisseria meningitidis', 'Crianças e Adolescentes'),
+('Hepatite A', 'Protege contra Hepatite A', 'Crianças e Adolescentes'),
+('Febre Amarela', 'Protege contra Febre Amarela', 'Adultos e Crianças acima de 9 meses'),
+('Influenza', 'Protege contra a gripe', 'Idosos, Adultos e Crianças acima de 6 meses'),
+('Tríplice Viral', 'Protege contra Sarampo, Caxumba e Rubéola', 'Crianças e Adolescentes'),
+('Tétano', 'Protege contra o tétano', 'Adultos'),
+('Herpes Zoster', 'Protege contra Herpes Zoster', 'Adultos e Idosos'),
+('HPV', 'Protege contra o Papilomavírus Humano', 'Adolescentes e Jovens adultos'),
+('COVID-19', 'Protege contra o coronavírus SARS-CoV-2', 'Adultos e Idosos');
+
+
+
 -VACINAS PASTA DATA
 Nome: BCG
 Proteção: Formas graves de tuberculose, meníngea e miliar
